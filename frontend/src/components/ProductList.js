@@ -1,40 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts, deleteProduct } from '../services/productService';
+import { setProducts, removeProduct } from '../store/productSlice';
 
 const ProductList = () => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.items);
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get('/api/products');
-                setProducts(response.data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await getProducts();
+      dispatch(setProducts(data));
+    };
+    fetchProducts();
+  }, [dispatch]);
 
-        fetchProducts();
-    }, []);
+  const handleDelete = async (id) => {
+    await deleteProduct(id);
+    dispatch(removeProduct(id));
+  };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
-    return (
-        <div className="product-list">
-            {products.map(product => (
-                <div key={product._id} className="product-item">
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <p>Price: ${product.price}</p>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div>
+      <h2>Product List</h2>
+      <ul>
+        {products.map((product) => (
+          <li key={product._id}>
+            {product.name} - ${product.price}
+            <button onClick={() => handleDelete(product._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default ProductList;

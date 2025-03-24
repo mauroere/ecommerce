@@ -8,6 +8,9 @@ const productRoutes = require('./routes/productRoutes');
 const shippingRoutes = require('./routes/shippingRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 const envConfig = require('./config/env');
+const storeRoutes = require('./routes/storeRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 
@@ -25,6 +28,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/shipping', shippingRoutes);
+app.use('/api/uploads', uploadRoutes);
+app.use('/api/stores', storeRoutes);
+app.use('/api/products', productRoutes);
+
 
 // Error handling middleware
 app.use(errorHandler);
