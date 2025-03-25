@@ -24,4 +24,6 @@ export const CartProvider = ({ children }) => {
     );
 };
 
+// Export CartProvider as default
+export default CartProvider;
 export const useCart = () => useContext(CartContext);

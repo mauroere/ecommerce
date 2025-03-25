@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { CartContext } from '../context/CartContext';
-import { AuthContext } from '../context/AuthContext';
-import { paymentService } from '../services/paymentService';
-import { shippingService } from '../services/shippingService';
+import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { createPayment } from '../services/paymentService';
+import { createShippingLabel } from '../services/shippingService';
 
 const Checkout = () => {
-    const { cartItems, totalAmount } = useContext(CartContext);
-    const { user } = useContext(AuthContext);
+    const { cart, clearCart } = useCart();
+    const { user } = useAuth();
     const [shippingAddress, setShippingAddress] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('credit_card');
     const [loading, setLoading] = useState(false);
@@ -18,16 +18,16 @@ const Checkout = () => {
 
         try {
             const orderData = {
-                items: cartItems,
-                total: totalAmount,
+                items: cart,
                 shippingAddress,
                 paymentMethod,
                 userId: user.id,
             };
 
-            const paymentResponse = await paymentService.processPayment(orderData);
-            const shippingResponse = await shippingService.createShippingOrder(paymentResponse.data);
+            const paymentResponse = await createPayment(orderData);
+            const shippingResponse = await createShippingLabel(paymentResponse.data);
 
+            clearCart();
             // Handle successful checkout (e.g., redirect to confirmation page)
         } catch (err) {
             setError(err.response?.data?.message || 'Checkout failed. Please try again.');
@@ -55,17 +55,6 @@ const Checkout = () => {
                     <option value="credit_card">Credit Card</option>
                     <option value="paypal">PayPal</option>
                 </select>
-            </div>
-            <div>
-                <h3>Order Summary</h3>
-                <ul>
-                    {cartItems.map((item) => (
-                        <li key={item.id}>
-                            {item.name} - ${item.price} x {item.quantity}
-                        </li>
-                    ))}
-                </ul>
-                <p>Total Amount: ${totalAmount}</p>
             </div>
             <button onClick={handleCheckout} disabled={loading}>
                 {loading ? 'Processing...' : 'Checkout'}
