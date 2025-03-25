@@ -29,12 +29,20 @@ exports.getProducts = async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
   try {
-    const products = await Product.find({ owner: req.user.id })
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-    res.status(200).json(products);
+      const pageNumber = parseInt(page, 10);
+      const limitNumber = parseInt(limit, 10);
+
+      if (isNaN(pageNumber) || isNaN(limitNumber)) {
+          return res.status(400).json({ message: 'Invalid pagination parameters' });
+      }
+
+      const products = await Product.find({ owner: req.user.id })
+          .skip((pageNumber - 1) * limitNumber)
+          .limit(limitNumber);
+
+      res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching products", error });
+      res.status(500).json({ message: 'Error fetching products', error });
   }
 };
 

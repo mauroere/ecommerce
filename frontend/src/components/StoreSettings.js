@@ -24,16 +24,17 @@ const StoreSettings = () => {
 
   const handleSave = async () => {
     try {
-      if (store._id) {
-        await axios.put(`/stores/${store._id}`, store);
-      } else {
-        await axios.post('/stores', store);
-      }
-      alert('Store settings saved!');
+        if (store._id) {
+            await axios.put(`/stores/${store._id}`, store);
+        } else {
+            await axios.post('/stores', store);
+        }
+        alert('Store settings saved!');
     } catch (error) {
-      alert('Error saving store settings: ' + error.message);
+        console.error('Error saving store settings:', error);
+        alert('Error saving store settings: ' + (error.response?.data?.message || error.message));
     }
-  };
+};
 
   return (
     <div>

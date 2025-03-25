@@ -7,22 +7,20 @@ const MERCADOPAGO_ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN; // Set yo
 exports.createPayment = async (req, res) => {
     const { items, payer } = req.body;
 
-    const paymentData = {
-        transaction_amount: items.reduce((acc, item) => acc + item.price * item.quantity, 0),
-        description: 'Purchase from E-commerce Platform',
-        payer: {
-            email: payer.email,
-        },
-        items: items.map(item => ({
-            title: item.title,
-            quantity: item.quantity,
-            currency_id: 'ARS',
-            unit_price: item.price,
-        })),
-        payment_method_id: 'visa', // Example payment method
-    };
-
     try {
+        const paymentData = {
+            transaction_amount: items.reduce((acc, item) => acc + item.price * item.quantity, 0),
+            description: 'Purchase from E-commerce Platform',
+            payer: { email: payer.email },
+            items: items.map(item => ({
+                title: item.title,
+                quantity: item.quantity,
+                currency_id: 'ARS',
+                unit_price: item.price,
+            })),
+            payment_method_id: 'visa',
+        };
+
         const response = await axios.post(MERCADOPAGO_URL, paymentData, {
             headers: {
                 Authorization: `Bearer ${MERCADOPAGO_ACCESS_TOKEN}`,
@@ -38,11 +36,10 @@ exports.createPayment = async (req, res) => {
         });
 
         await payment.save();
-
         res.status(200).json({ payment: response.data });
     } catch (error) {
-        console.error('Payment processing error:', error);
-        res.status(500).json({ error: 'Payment processing failed' });
+        console.error('Payment processing error:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Payment processing failed', details: error.response?.data || error.message });
     }
 };
 
