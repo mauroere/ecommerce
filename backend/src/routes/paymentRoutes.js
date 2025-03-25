@@ -11,4 +11,7 @@ router.get('/success', paymentController.paymentSuccess);
 // Route to handle payment failure
 router.get('/failure', paymentController.paymentFailure);
 
+//Crear ruta de método de pago
+router.post('/create', validateCreatePayment, createPayment);
+
 module.exports = router;

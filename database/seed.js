@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 
 const hashedPassword = await bcrypt.hash(password, 10);
 const users = [
-    { username: 'admin', password: await bcrypt.hash('admin123', 10), email: 'admin@example.com' },
-    { username: 'user1', password: await bcrypt.hash('user123', 10), email: 'user1@example.com' },
+    { username: 'admin', password: bcrypt.hash('admin123', 10), email: 'admin@example.com' },
+    { username: 'user1', password: bcrypt.hash('user123', 10), email: 'user1@example.com' },
 ];
 
 const products = [
@@ -21,6 +21,11 @@ const seedDatabase = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
+
+        const users = [
+            { username: 'admin', password: await bcrypt.hash('admin123', 10), email: 'admin@example.com' },
+            { username: 'user1', password: await bcrypt.hash('user123', 10), email: 'user1@example.com' },
+        ];
 
         await User.deleteMany({});
         await Product.deleteMany({});

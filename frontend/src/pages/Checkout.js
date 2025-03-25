@@ -30,7 +30,7 @@ const Checkout = () => {
 
             // Handle successful checkout (e.g., redirect to confirmation page)
         } catch (err) {
-            setError('Checkout failed. Please try again.');
+            setError(err.response?.data?.message || 'Checkout failed. Please try again.');
         } finally {
             setLoading(false);
         }

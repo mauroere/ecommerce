@@ -22,8 +22,12 @@ api.interceptors.request.use((config) => {
 
 // Function to get products
 export const getProducts = async () => {
-  const response = await api.get('/products');
-  return response.data;
+  try {
+      const response = await api.get('/products');
+      return response.data;
+  } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch products');
+  }
 };
 
 // Function to get a single product by ID

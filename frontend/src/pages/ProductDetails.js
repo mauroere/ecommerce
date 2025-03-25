@@ -24,7 +24,7 @@ const ProductDetails = () => {
     }, [id]);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (error) return <div>Error: {error.message || 'Failed to fetch product details'}</div>;
 
     return (
         <div className="product-details">

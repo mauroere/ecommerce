@@ -1,5 +1,6 @@
 const Payment = require('../models/Order'); // Assuming Order model is used for payment processing
 const axios = require('axios');
+const { body, validationResult } = require('express-validator');
 
 const MERCADOPAGO_URL = 'https://api.mercadopago.com/v1/payments';
 const MERCADOPAGO_ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN; // Set your MercadoPago access token in environment variables
@@ -59,3 +60,15 @@ exports.getPaymentStatus = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch payment status' });
     }
 };
+
+exports.validateCreatePayment = [
+    body('items').isArray({ min: 1 }).withMessage('Items must be an array with at least one item'),
+    body('payer.email').isEmail().withMessage('Payer email is invalid'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    },
+];

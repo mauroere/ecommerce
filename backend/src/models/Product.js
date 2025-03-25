@@ -12,11 +12,13 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-  },
-  stock: {
+    min: [0, 'Price must be a positive number'],
+},
+stock: {
     type: Number,
     default: 0,
-  },
+    min: [0, 'Stock must be a non-negative integer'],
+},
   category: {
     type: String,
     required: true,
