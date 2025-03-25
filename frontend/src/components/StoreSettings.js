@@ -23,12 +23,16 @@ const StoreSettings = () => {
   };
 
   const handleSave = async () => {
-    if (store._id) {
-      await axios.put(`/stores/${store._id}`, store); // Actualizar tienda existente
-    } else {
-      await axios.post('/stores', store); // Crear nueva tienda
+    try {
+      if (store._id) {
+        await axios.put(`/stores/${store._id}`, store);
+      } else {
+        await axios.post('/stores', store);
+      }
+      alert('Store settings saved!');
+    } catch (error) {
+      alert('Error saving store settings: ' + error.message);
     }
-    alert('Store settings saved!');
   };
 
   return (

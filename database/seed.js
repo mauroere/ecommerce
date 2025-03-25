@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 const User = require('../backend/src/models/User');
 const Product = require('../backend/src/models/Product');
 const Order = require('../backend/src/models/Order');
+const bcrypt = require('bcrypt');
 
+const hashedPassword = await bcrypt.hash(password, 10);
 const users = [
-    { username: 'admin', password: 'admin123', email: 'admin@example.com' },
-    { username: 'user1', password: 'user123', email: 'user1@example.com' },
-];
+    { username: 'admin', password: await bcrypt.hash('admin123', 10), email: 'admin@example.com' },
+    { username: 'user1', password: await bcrypt.hash('user123', 10), email: 'user1@example.com' },
+  ];
 
 const products = [
     { name: 'Product 1', price: 100, description: 'Description for product 1', stock: 10 },

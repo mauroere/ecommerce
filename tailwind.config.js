@@ -1,12 +1,7 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./frontend/src/**/*.{js,jsx,ts,tsx}'], // Escanea los archivos en la carpeta src
   theme: {
     extend: {},
   },
-  variants: {
-    extend: {},
-  },
   plugins: [],
-  
-}
+};

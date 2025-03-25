@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -16,16 +15,14 @@ const App = () => {
     <AuthProvider>
       <CartProvider>
         <Router>
-        <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
           <Navbar />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/product/:id" component={ProductDetails} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
         </Router>
       </CartProvider>
     </AuthProvider>
