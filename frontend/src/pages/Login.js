@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { login } from '../services/authService';
 
@@ -7,15 +7,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { setAuth } = useContext(AuthContext);
-    const history = useHistory();
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await login({ email, password });
-            setAuth(response.data);
-            history.push('/'); // Redirect to home after successful login
+            await login({ email, password });
+            navigate('/'); // Redirect to home after successful login
         } catch (err) {
             setError('Invalid email or password');
         }

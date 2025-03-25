@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:5000/api'; // Adjust the URL as needed
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
   },
 });
 
@@ -53,3 +53,10 @@ export const processPayment = async (paymentData) => {
   const response = await api.post('/payment', paymentData);
   return response.data;
 };
+
+export const fetchProducts = async () => {
+  const response = await axios.get(`${API_URL}/products`);
+  return response.data;
+};
+
+export default api;

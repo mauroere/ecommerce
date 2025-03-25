@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { getUser, loginUser, logoutUser, registerUser } from '../services/authService';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
 
 export const AuthContext = createContext();
 
@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const currentUser = await getUser();
+            const currentUser = await authService.getCurrentUser();
             setUser(currentUser);
             setLoading(false);
         };
@@ -17,17 +17,17 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (credentials) => {
-        const loggedInUser = await loginUser(credentials);
+        const loggedInUser = await authService.login(credentials);
         setUser(loggedInUser);
     };
 
     const register = async (userData) => {
-        const newUser = await registerUser(userData);
+        const newUser = await authService.register(userData);
         setUser(newUser);
     };
 
     const logout = async () => {
-        await logoutUser();
+        await authService.logout();
         setUser(null);
     };
 
@@ -37,3 +37,4 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+export const useAuth = () => useContext(AuthContext);
