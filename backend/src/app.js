@@ -23,6 +23,7 @@ const startServer = async () => {
     await connectDB();
     await sequelize.sync(); // Sincronizar modelos con la base de datos
     console.log("Database synchronized");
+    mongoose.set("strictQuery", false); // Agregar para evitar advertencias de Mongoose
     await mongoose.connect(envConfig.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -33,9 +33,16 @@ This is the frontend part of the e-commerce platform built using React. The appl
 
 ### Running the Application
 
-To start the development server, run:
+1. Start the backend server:
+   ```
+   cd ../backend
+   npm start
+   ```
 
-npm start
+2. Start the frontend application:
+   ```
+   npm start
+   ```
 
 The application will be available at `http://localhost:3000`.
 
