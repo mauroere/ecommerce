@@ -1,17 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const paymentController = require('../controllers/paymentController');
+const {
+  initiatePayment,
+  paymentSuccess,
+  paymentFailure,
+  createPayment,
+  validateCreatePayment,
+} = require("../controllers/paymentController");
 
 // Route to initiate payment
-router.post('/initiate', paymentController.initiatePayment);
+router.post("/initiate", initiatePayment);
 
 // Route to handle payment success
-router.get('/success', paymentController.paymentSuccess);
+router.get("/success", paymentSuccess);
 
 // Route to handle payment failure
-router.get('/failure', paymentController.paymentFailure);
+router.get("/failure", paymentFailure);
 
 //Crear ruta de método de pago
-router.post('/create', validateCreatePayment, createPayment);
+router.post("/create", validateCreatePayment, createPayment);
 
 module.exports = router;

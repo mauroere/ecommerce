@@ -15,15 +15,18 @@ const App = () => {
     <AuthProvider>
       <CartProvider>
         <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/product/:id" element={<ProductDetails />} /> //
-            Corregido para usar ":id"
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-grow container mx-auto p-4">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Routes>
+            </main>
+          </div>
         </Router>
       </CartProvider>
     </AuthProvider>

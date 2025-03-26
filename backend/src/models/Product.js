@@ -1,45 +1,43 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const Product = sequelize.define(
+  "Product",
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: { min: 0 },
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      validate: { min: 0 },
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    videoUrl: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: [0, 'Price must be a positive number'],
-},
-stock: {
-    type: Number,
-    default: 0,
-    min: [0, 'Stock must be a non-negative integer'],
-},
-  category: {
-    type: String,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    default: null,
-  },
-  videoUrl: {
-    type: String, // Nuevo campo para videos
-    default: null,
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = Product;

@@ -22,29 +22,36 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>Email:</label>
+          <label className="block text-sm font-medium">Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full border rounded px-3 py-2"
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label className="block text-sm font-medium">Password:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full border rounded px-3 py-2"
           />
         </div>
-        <button type="submit">Login</button>
+        <button
+          type="submit"
+          className="w-full bg-primary text-white py-2 rounded hover:bg-indigo-600"
+        >
+          Login
+        </button>
       </form>
     </div>
   );
