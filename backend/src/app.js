@@ -13,28 +13,40 @@ const envConfig = require('./config/env');
 
 const app = express();
 
+
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Database connection
-mongoose.connect(envConfig.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+const startServer = async () => {
+    try {
+        await mongoose.connect(envConfig.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log('Conexión a MongoDB exitosa');
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/payment', paymentRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/shipping', shippingRoutes);
-app.use('/api/uploads', uploadRoutes);
-app.use('/api/stores', storeRoutes);
+        // Rutas
+        app.use('/api/auth', authRoutes);
+        app.use('/api/payment', paymentRoutes);
+        app.use('/api/products', productRoutes);
+        app.use('/api/shipping', shippingRoutes);
+        app.use('/api/uploads', uploadRoutes);
+        app.use('/api/stores', storeRoutes);
 
-// Error handling middleware
-app.use(errorHandler);
+        // Middleware de manejo de errores
+        app.use(errorHandler);
 
-// Start the server
-const PORT = envConfig.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+        // Iniciar el servidor
+        const PORT = envConfig.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Servidor corriendo en el puerto ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error al iniciar el servidor:', error.message);
+        process.exit(1); // Salir del proceso con un código de error
+    }
+};
+
+startServer();

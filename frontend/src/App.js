@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Checkout from './pages/Checkout';
-import ProductDetails from './pages/ProductDetails';
-import Dashboard from './pages/Dashboard';
-import AuthProvider from './context/AuthContext';
-import CartProvider from './context/CartContext';
-import './styles/global.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Checkout from "./pages/Checkout";
+import ProductDetails from "./pages/ProductDetails";
+import Dashboard from "./pages/Dashboard";
+import AuthProvider from "./context/AuthContext";
+import CartProvider from "./context/CartContext";
+import "./styles/global.css";
 
 const App = () => {
   return (
@@ -20,7 +20,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/product/:id" element={<ProductDetails />} /> //
+            Corregido para usar ":id"
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
