@@ -2,8 +2,8 @@ const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "./database.sqlite", // Archivo SQLite
-  logging: false, // Deshabilitar logs de SQL
+  storage: "./database.sqlite",
+  logging: false,
 });
 
 const connectDB = async () => {
