@@ -23,12 +23,6 @@ const startServer = async () => {
     await connectDB();
     await sequelize.sync(); // Sincronizar modelos con la base de datos
     console.log("Database synchronized");
-    mongoose.set("strictQuery", false); // Agregar para evitar advertencias de Mongoose
-    await mongoose.connect(envConfig.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Conexión a MongoDB exitosa");
 
     // Rutas
     app.use("/api/auth", authRoutes);
@@ -48,6 +42,7 @@ const startServer = async () => {
     });
   } catch (error) {
     console.error("Error al iniciar el servidor:", error.message);
+    console.error(error.stack); // Agregar para depuración
     process.exit(1); // Salir del proceso con un código de error
   }
 };

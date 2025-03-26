@@ -1,27 +1,29 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const storeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const Store = sequelize.define(
+  "Store",
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    owner: {
+      type: DataTypes.INTEGER, // Relación con el ID del usuario
+      allowNull: false,
+    },
+    domain: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    appearanceConfig: {
+      type: DataTypes.JSON,
+      defaultValue: {}, // Configuración de apariencia
+    },
   },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  domain: {
-    type: String,
-    default: null, // Null for free subdomain
-  },
-  appearanceConfig: {
-    type: Object,
-    default: {}, // Store appearance settings (e.g., colors, logo, etc.)
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('Store', storeSchema);
+module.exports = Store;
