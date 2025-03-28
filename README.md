@@ -1,139 +1,102 @@
-# E-commerce Platform
+# Ecommerce Project
 
-This project is a full-stack e-commerce platform built with React for the frontend, Node.js and Express.js for the backend, and MongoDB for the database. It includes features such as user authentication, payment processing, and shipping management.
+Este proyecto es una aplicación de comercio electrónico diseñada para gestionar productos, usuarios y pedidos.
 
-## Project Structure
+## Requisitos Previos
 
-```
-ecommerce-platform
-├── backend
-│   ├── src
-│   │   ├── app.js
-│   │   ├── config
-│   │   │   ├── db.js
-│   │   │   └── env.js
-│   │   ├── controllers
-│   │   │   ├── authController.js
-│   │   │   ├── paymentController.js
-│   │   │   └── shippingController.js
-│   │   ├── middlewares
-│   │   │   ├── authMiddleware.js
-│   │   │   └── errorHandler.js
-│   │   ├── models
-│   │   │   ├── Order.js
-│   │   │   ├── Product.js
-│   │   │   └── User.js
-│   │   ├── routes
-│   │   │   ├── authRoutes.js
-│   │   │   ├── paymentRoutes.js
-│   │   │   ├── productRoutes.js
-│   │   │   └── shippingRoutes.js
-│   │   └── utils
-│   │       ├── jwtUtils.js
-│   │       └── oauthUtils.js
-│   ├── package.json
-│   └── README.md
-├── frontend
-│   ├── public
-│   │   └── index.html
-│   ├── src
-│   │   ├── App.js
-│   │   ├── components
-│   │   │   ├── AuthForm.js
-│   │   │   ├── Cart.js
-│   │   │   ├── Navbar.js
-│   │   │   └── ProductList.js
-│   │   ├── context
-│   │   │   ├── AuthContext.js
-│   │   │   └── CartContext.js
-│   │   ├── pages
-│   │   │   ├── Checkout.js
-│   │   │   ├── Home.js
-│   │   │   ├── Login.js
-│   │   │   └── ProductDetails.js
-│   │   ├── services
-│   │   │   ├── api.js
-│   │   │   ├── authService.js
-│   │   │   ├── paymentService.js
-│   │   │   └── shippingService.js
-│   │   ├── styles
-│   │   │   └── global.css
-│   │   └── utils
-│   │       └── helpers.js
-│   ├── package.json
-│   └── README.md
-├── database
-│   └── seed.js
-└── README.md
-```
+Antes de comenzar, asegúrate de tener instalados los siguientes programas:
 
-## Features
+- [Node.js](https://nodejs.org/) (versión 16 o superior)
+- [npm](https://www.npmjs.com/) o [yarn](https://yarnpkg.com/)
+- [Git](https://git-scm.com/)
 
-- **User Authentication**: Secure login and registration using JWT and OAuth.
-- **Payment Integration**: Process payments using the MercadoPago API.
-- **Shipping Management**: Manage shipping options through Correo Argentino and Andreani APIs.
-- **Product Management**: Display and manage products in the store.
-- **Shopping Cart**: Users can add products to their cart and proceed to checkout.
+## Instalación
 
-## Getting Started
+Sigue estos pasos para instalar el proyecto:
 
-### Prerequisites
-
-- Node.js
-- MongoDB
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd ecommerce-platform
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/ecommerce.git
+   cd ecommerce
    ```
 
-2. Install backend dependencies:
-   ```
-   cd backend
+2. Instala las dependencias:
+   ```bash
    npm install
+   # o si usas yarn
+   yarn install
    ```
 
-3. Install frontend dependencies:
-   ```
-   cd frontend
-   npm install
-   ```
+3. Configura las variables de entorno:
+   - Crea un archivo `.env` en la raíz del proyecto.
+   - Agrega las variables necesarias según el archivo `.env.example`.
 
-### Running the Application
+## Ejecución
 
-1. Start the backend server:
-   ```
-   cd backend
-   npm start
-   ```
+### Modo Desarrollo
 
-2. Start the frontend application:
-   ```
-   cd frontend
-   npm start
-   ```
-
-### Environment Variables
-
-Create a `.env` file in the backend directory and add the following variables:
-```
-MONGODB_URI=<your_mongodb_uri>
-JWT_SECRET=<your_jwt_secret>
-MERCADOPAGO_ACCESS_TOKEN=<your_mercadopago_access_token>
+Para iniciar el servidor en modo desarrollo, ejecuta:
+```bash
+npm run dev
+# o si usas yarn
+yarn dev
 ```
 
-### API Documentation
+El servidor estará disponible en `http://localhost:3000`.
 
-Refer to the backend README for detailed API documentation.
+### Modo Producción
 
-## Contributing
+1. Genera la build del proyecto:
+   ```bash
+   npm run build
+   # o si usas yarn
+   yarn build
+   ```
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or features.
+2. Inicia el servidor:
+   ```bash
+   npm start
+   # o si usas yarn
+   yarn start
+   ```
 
-## License
+## Estructura del Proyecto
 
-This project is licensed under the MIT License.
+La estructura actual del proyecto es la siguiente:
+
+```
+ecommerce/
+├── src/
+│   ├── components/       # Componentes reutilizables
+│   ├── pages/            # Páginas principales de la aplicación
+│   ├── services/         # Lógica para interactuar con APIs
+│   ├── utils/            # Funciones utilitarias
+│   └── styles/           # Archivos de estilos
+├── public/               # Archivos estáticos
+├── .env.example          # Ejemplo de configuración de variables de entorno
+├── package.json          # Dependencias y scripts del proyecto
+└── README.md             # Documentación del proyecto
+```
+
+## Scripts Disponibles
+
+En el archivo `package.json`, se encuentran los siguientes scripts útiles:
+
+- `npm run dev`: Inicia el servidor en modo desarrollo.
+- `npm run build`: Genera la build para producción.
+- `npm start`: Inicia el servidor en modo producción.
+- `npm test`: Ejecuta las pruebas (si están configuradas).
+
+## Contribución
+
+Si deseas contribuir al proyecto:
+
+1. Haz un fork del repositorio.
+2. Crea una rama para tu funcionalidad (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -m 'Agrega nueva funcionalidad'`).
+4. Sube tus cambios (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
