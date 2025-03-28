@@ -83,3 +83,16 @@ exports.oauthLogin = async (req, res) => {
     res.status(500).json({ message: "Error with Google login", error });
   }
 };
+
+// Example handler function
+const exampleHandler = (req, res) => {
+  res.json({ message: 'Example route is working!' });
+};
+
+// Export the handler
+module.exports = {
+  register,
+  login,
+  oauthLogin,
+  exampleHandler
+};
