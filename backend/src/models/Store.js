@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/sequelize");
 
-const storeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  location: { type: String, required: true },
+const Store = sequelize.define("Store", {
+  name: { type: DataTypes.STRING, allowNull: false },
+  location: { type: DataTypes.STRING, allowNull: false },
 });
 
-module.exports = mongoose.model("Store", storeSchema);
+module.exports = Store;

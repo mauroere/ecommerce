@@ -21,11 +21,7 @@ router.post(
     body("price")
       .isFloat({ min: 0 })
       .withMessage("Price must be a positive number"),
-    body("stock")
-      .optional()
-      .isInt({ min: 0 })
-      .withMessage("Stock must be a non-negative integer"),
-    body("category").notEmpty().withMessage("Category is required"),
+    body("description").notEmpty().withMessage("Description is required"),
   ],
   createProduct
 );

@@ -1,19 +1,16 @@
-const { Sequelize } = require("sequelize");
-
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "./database.sqlite",
-  logging: false,
-});
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await sequelize.authenticate();
-    console.log("SQLite connected successfully");
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error("SQLite connection failed:", error.message);
-    process.exit(1);
+    console.error(`Error: ${error.message}`);
+    process.exit(1); // Exit process with failure
   }
 };
 
-module.exports = { sequelize, connectDB };
+module.exports = connectDB;

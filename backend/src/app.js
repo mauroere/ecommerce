@@ -1,49 +1,36 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config(); // Load environment variables before anything else
+const { connectSequelize } = require("./config/sequelize"); // Import Sequelize connection
 const authRoutes = require("./routes/authRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
 const productRoutes = require("./routes/productRoutes");
-const shippingRoutes = require("./routes/shippingRoutes");
 const storeRoutes = require("./routes/storeRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
-const errorHandler = require("./middlewares/errorHandler");
-const envConfig = require("./config/env");
-const { connectDB, sequelize } = require("./config/db");
+const paymentRoutes = require("./routes/paymentRoutes");
+const shippingRoutes = require("./routes/shippingRoutes");
+
+connectSequelize(); // Connect to SQLite
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    await sequelize.sync(); // Sincronizar modelos con la base de datos
-    console.log("Database synchronized");
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/stores", storeRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/shipping", shippingRoutes);
 
-    // Rutas
-    app.use("/api/auth", authRoutes);
-    app.use("/api/payment", paymentRoutes);
-    app.use("/api/products", productRoutes);
-    app.use("/api/shipping", shippingRoutes);
-    app.use("/api/uploads", uploadRoutes);
-    app.use("/api/stores", storeRoutes);
+// Handle 404 errors
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found" });
+});
 
-    // Middleware de manejo de errores
-    app.use(errorHandler);
+// General error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Server error", error: err.message });
+});
 
-    // Iniciar el servidor
-    const PORT = envConfig.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Error al iniciar el servidor:", error.message);
-    console.error(error.stack); // Agregar para depuración
-    process.exit(1); // Salir del proceso con un código de error
-  }
-};
-
-startServer();
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

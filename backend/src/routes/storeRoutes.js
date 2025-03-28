@@ -1,11 +1,20 @@
 const express = require('express');
 const { createStore, getStores, getStoreById, updateStore, deleteStore } = require('../controllers/storeController');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // Ensure correct import
+const { body } = require("express-validator");
 
 const router = express.Router();
 
 // Route to create a store
-router.post('/', authMiddleware, createStore); // Ensure createStore is a valid function
+router.post(
+  "/",
+  authMiddleware,
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("location").notEmpty().withMessage("Location is required"),
+  ],
+  createStore
+);
 
 // Route to get all stores
 router.get('/', authMiddleware, getStores); // Ensure getStores is a valid function
