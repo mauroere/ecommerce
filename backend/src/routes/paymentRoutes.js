@@ -1,23 +1,23 @@
 const express = require("express");
-const router = express.Router();
 const {
+  validateCreatePayment,
+  createPayment,
+  getPaymentStatus,
   initiatePayment,
   paymentSuccess,
   paymentFailure,
-  createPayment,
-  validateCreatePayment,
 } = require("../controllers/paymentController");
+const router = express.Router();
 
-// Route to initiate payment
-router.post("/initiate", initiatePayment);
-
-// Route to handle payment success
-router.get("/success", paymentSuccess);
-
-// Route to handle payment failure
-router.get("/failure", paymentFailure);
-
-//Crear ruta de método de pago
+// Payment creation route with validation
 router.post("/create", validateCreatePayment, createPayment);
+
+// Route to get payment status
+router.get("/status/:paymentId", getPaymentStatus);
+
+// Placeholder routes
+router.post("/initiate", initiatePayment);
+router.get("/success", paymentSuccess);
+router.get("/failure", paymentFailure);
 
 module.exports = router;

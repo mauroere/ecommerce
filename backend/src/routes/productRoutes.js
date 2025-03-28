@@ -4,16 +4,18 @@ const {
   getProducts,
   updateProduct,
   deleteProduct,
-  validateGetProducts, // Importar correctamente
+  validateGetProducts,
+  getProductById,
 } = require("../controllers/productController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const { authMiddleware } = require("../middlewares/authMiddleware"); // Ensure correct import
 const { body } = require("express-validator");
 
 const router = express.Router();
 
+// Route to create a product
 router.post(
   "/",
-  authMiddleware,
+  authMiddleware, // Ensure this is a valid middleware function
   [
     body("name").notEmpty().withMessage("Name is required"),
     body("price")
@@ -27,7 +29,14 @@ router.post(
   ],
   createProduct
 );
-router.get("/", authMiddleware, validateGetProducts, getProducts); // Corregido validateGetProducts
+
+// Route to get all products
+router.get("/", authMiddleware, validateGetProducts, getProducts);
+
+// Route to get a product by ID
+router.get("/:id", getProductById);
+
+// Route to update a product
 router.put(
   "/:id",
   authMiddleware,
@@ -43,7 +52,9 @@ router.put(
       .withMessage("Stock must be a non-negative integer"),
   ],
   updateProduct
-); // Validación agregada
+);
+
+// Route to delete a product
 router.delete("/:id", authMiddleware, deleteProduct);
 
 module.exports = router;

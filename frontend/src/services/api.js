@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:5000/api'; // Adjust the URL as needed
+const API_URL = 'http://localhost:5000/api'; // Ensure this matches the backend URL
 
 // Set up axios instance
 const api = axios.create({
@@ -13,7 +13,7 @@ const api = axios.create({
 
 // Interceptor to add JWT token to requests
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('token'); // Obtén el token de las cookies
+  const token = Cookies.get('authToken'); // Retrieve token from cookies
   if (token) {
       config.headers.Authorization = `Bearer ${token}`;
   }

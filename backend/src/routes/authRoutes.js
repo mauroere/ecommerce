@@ -1,6 +1,6 @@
 const express = require('express');
 const { register, login, oauthLogin, exampleHandler } = require('../controllers/authController');
-const { authenticate } = require('../middlewares/authMiddleware');
+const { authMiddleware } = require('../middlewares/authMiddleware'); // Ensure correct import
 
 const router = express.Router();
 
@@ -11,14 +11,14 @@ router.post('/register', register);
 router.post('/login', login);
 
 // OAuth login route
-router.post('/oauth', oauthLogin);
+router.post('/oauth-login', oauthLogin);
 
-// Example route fix: Ensure the callback function exists
-router.get('/example-route', exampleHandler); // Ensure exampleHandler is defined and exported
+// Example route
+router.get('/example', exampleHandler);
 
 // Protected route example
-router.get('/profile', authenticate, (req, res) => {
-    res.json({ message: 'This is a protected route', user: req.user });
+router.get('/profile', authMiddleware, (req, res) => {
+  res.json({ message: 'This is a protected route', user: req.user });
 });
 
 module.exports = router;

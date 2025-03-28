@@ -1,46 +1,85 @@
-const Store = require('../models/Store');
+const Store = require("../models/Store");
 
-exports.createStore = async (req, res) => {
+// Create a new store
+const createStore = async (req, res) => {
   try {
-    const { name, domain, appearanceConfig } = req.body;
-    const store = await Store.create({
-      name,
-      owner: req.user.id,
-      domain,
-      appearanceConfig,
-    });
-    res.status(201).json(store);
+    const { name, location } = req.body;
+
+    if (!name || !location) {
+      return res.status(400).json({ message: "Name and location are required" });
+    }
+
+    const store = new Store({ name, location });
+    await store.save();
+
+    res.status(201).json({ message: "Store created successfully", store });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating store', error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-exports.getStores = async (req, res) => {
+// Get all stores
+const getStores = async (req, res) => {
   try {
-    const stores = await Store.findAll({ where: { owner: req.user.id } });
+    const stores = await Store.find();
     res.status(200).json(stores);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching stores', error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-exports.updateStore = async (req, res) => {
+// Get a store by ID
+const getStoreById = async (req, res) => {
   try {
-    const store = await Store.update(req.body, {
-      where: { id: req.params.id, owner: req.user.id },
-      returning: true,
-    });
-    res.status(200).json(store[1][0]); // Retorna el registro actualizado
+    const { id } = req.params;
+    const store = await Store.findById(id);
+
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    res.status(200).json(store);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating store', error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-exports.deleteStore = async (req, res) => {
+// Update a store
+const updateStore = async (req, res) => {
   try {
-    await Store.destroy({ where: { id: req.params.id, owner: req.user.id } });
-    res.status(200).json({ message: 'Store deleted successfully' });
+    const { id } = req.params;
+    const updatedStore = await Store.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    res.status(200).json({ message: "Store updated successfully", updatedStore });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting store', error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
+};
+
+// Delete a store
+const deleteStore = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedStore = await Store.findByIdAndDelete(id);
+
+    if (!deletedStore) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    res.status(200).json({ message: "Store deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+module.exports = {
+  createStore,
+  getStores,
+  getStoreById,
+  updateStore,
+  deleteStore,
 };

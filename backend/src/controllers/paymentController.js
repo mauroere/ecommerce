@@ -5,7 +5,13 @@ const { body, validationResult } = require("express-validator");
 const MERCADOPAGO_URL = "https://api.mercadopago.com/v1/payments";
 const MERCADOPAGO_ACCESS_TOKEN = process.env.MERCADOPAGO_ACCESS_TOKEN; // Set your MercadoPago access token in environment variables
 
-exports.createPayment = async (req, res) => {
+// Create a payment
+const createPayment = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { items, payer } = req.body;
 
   try {
@@ -25,16 +31,12 @@ exports.createPayment = async (req, res) => {
       payment_method_id: "visa",
     };
 
-    console.log("Sending payment data to MercadoPago:", paymentData); // Log para depuración
-
     const response = await axios.post(MERCADOPAGO_URL, paymentData, {
       headers: {
         Authorization: `Bearer ${MERCADOPAGO_ACCESS_TOKEN}`,
         "Content-Type": "application/json",
       },
     });
-
-    console.log("MercadoPago response:", response.data); // Log para depuración
 
     const payment = new Payment({
       items,
@@ -46,20 +48,15 @@ exports.createPayment = async (req, res) => {
     await payment.save();
     res.status(200).json({ payment: response.data });
   } catch (error) {
-    console.error(
-      "Payment processing error:",
-      error.response?.data || error.message
-    );
-    res
-      .status(500)
-      .json({
-        error: "Payment processing failed",
-        details: error.response?.data || error.message,
-      });
+    res.status(500).json({
+      error: "Payment processing failed",
+      details: error.response?.data || error.message,
+    });
   }
 };
 
-exports.getPaymentStatus = async (req, res) => {
+// Get payment status
+const getPaymentStatus = async (req, res) => {
   const { paymentId } = req.params;
 
   try {
@@ -71,12 +68,12 @@ exports.getPaymentStatus = async (req, res) => {
 
     res.status(200).json({ payment: response.data });
   } catch (error) {
-    console.error("Error fetching payment status:", error);
     res.status(500).json({ error: "Failed to fetch payment status" });
   }
 };
 
-exports.validateCreatePayment = [
+// Validation middleware for creating a payment
+const validateCreatePayment = [
   body("items")
     .isArray({ min: 1 })
     .withMessage("Items must be an array with at least one item"),
@@ -89,3 +86,17 @@ exports.validateCreatePayment = [
     next();
   },
 ];
+
+// Placeholder functions for unimplemented routes
+const initiatePayment = (req, res) => res.status(501).json({ message: "Not implemented" });
+const paymentSuccess = (req, res) => res.status(501).json({ message: "Not implemented" });
+const paymentFailure = (req, res) => res.status(501).json({ message: "Not implemented" });
+
+module.exports = {
+  createPayment,
+  getPaymentStatus,
+  validateCreatePayment,
+  initiatePayment,
+  paymentSuccess,
+  paymentFailure,
+};
