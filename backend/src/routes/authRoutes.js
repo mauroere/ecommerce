@@ -1,6 +1,7 @@
 const express = require('express');
-const { register, login, oauthLogin, exampleHandler } = require('../controllers/authController');
+const { register, login, oauthLogin, exampleHandler, getCurrentUser } = require('../controllers/authController');
 const { authMiddleware } = require('../middlewares/authMiddleware'); // Ensure correct import
+const authenticate = require('../middlewares/authenticate'); // Middleware para verificar el token
 
 const router = express.Router();
 
@@ -20,5 +21,8 @@ router.get('/example', exampleHandler);
 router.get('/profile', authMiddleware, (req, res) => {
   res.json({ message: 'This is a protected route', user: req.user });
 });
+
+// Current user route
+router.get('/me', authenticate, getCurrentUser);
 
 module.exports = router;

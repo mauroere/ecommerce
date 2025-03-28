@@ -3,9 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce Platform</title>
+    <title>Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div id="root"></div>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Bienvenidos a Nuestra Tienda</h1>
+            <p class="text-lg mt-2">Explora todas nuestras secciones</p>
+        </div>
+    </header>
+    <main class="container mx-auto py-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="/productos.html" class="block bg-white shadow-lg rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-2xl font-semibold text-blue-600">Productos</h2>
+                <p class="mt-2 text-gray-600">Explora nuestro catálogo de productos.</p>
+            </a>
+            <a href="/carrito.html" class="block bg-white shadow-lg rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-2xl font-semibold text-blue-600">Carrito</h2>
+                <p class="mt-2 text-gray-600">Revisa los productos en tu carrito.</p>
+            </a>
+            <a href="/contacto.html" class="block bg-white shadow-lg rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-2xl font-semibold text-blue-600">Contacto</h2>
+                <p class="mt-2 text-gray-600">Ponte en contacto con nosotros.</p>
+            </a>
+            <a href="/nosotros.html" class="block bg-white shadow-lg rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-2xl font-semibold text-blue-600">Nosotros</h2>
+                <p class="mt-2 text-gray-600">Conoce más sobre nuestra empresa.</p>
+            </a>
+            <a href="/faq.html" class="block bg-white shadow-lg rounded-lg p-6 text-center hover:bg-blue-50">
+                <h2 class="text-2xl font-semibold text-blue-600">FAQ</h2>
+                <p class="mt-2 text-gray-600">Resuelve tus dudas frecuentes.</p>
+            </a>
+        </div>
+    </main>
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2023 Nuestra Tienda. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>
